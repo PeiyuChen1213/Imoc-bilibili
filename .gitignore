@@ -1,0 +1,4 @@
+# Project exclude paths
+/Imoc-bilibili-api/target/
+/Imoc-bilibili-dao/target/
+/Imoc-bilibili-service/target/

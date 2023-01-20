@@ -1,0 +1,12 @@
+#????
+server:
+  port: 8301
+spring:
+  #????
+  application:
+    name: bilibili
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    username: root
+    password: 1234
