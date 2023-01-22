@@ -3,6 +3,7 @@ package com.bilibili.dao;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Chen Peiyu
@@ -12,10 +13,19 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface UserDao {
+public interface UserDaoMapper {
     User getUserByPhone(String phone);
 
     Integer  addUser(User user);
 
     Integer addUserInfo(UserInfo userInfo);
+
+
+    User getUserById(Long currentUserId);
+
+    UserInfo getUserInfoById(Long currentUserId);
+
+    Integer updateUsers(User user);
+
+    Integer updateUserInfos(UserInfo userInfo);
 }

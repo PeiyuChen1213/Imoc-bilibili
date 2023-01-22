@@ -1,13 +1,15 @@
 package com.bilibili.service;
 
-import com.bilibili.dao.UserDao;
+import com.bilibili.dao.UserDaoMapper;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserConstant;
 import com.bilibili.domain.UserInfo;
 import com.bilibili.domain.exception.ConditionException;
 import com.bilibili.service.util.MD5Util;
 import com.bilibili.service.util.RSAUtil;
+import com.bilibili.service.util.TokenUtil;
 import com.mysql.cj.util.StringUtils;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ import java.util.Date;
 public class UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserDaoMapper userDaoMapper;
 
     public void addUser(User user) {
         //判断手机号是否为空，判断手机号是否已经注册过
@@ -53,7 +55,7 @@ public class UserService {
         user.setCreateTime(now);
 
         //然后将数据插入到数据库
-        userDao.addUser(user);
+        userDaoMapper.addUser(user);
 
         //在数据库里面添加用户信息
         UserInfo userInfo = new UserInfo();
@@ -62,13 +64,17 @@ public class UserService {
         userInfo.setBirth(UserConstant.DEFAULT_BIRTH);
         userInfo.setGender(UserConstant.GENDER_MALE);
         userInfo.setCreateTime(now);
+
+        //将用户信息表数据插入到数据库当中
+        userDaoMapper.addUserInfo(userInfo);
+
     }
 
     public User getUserByPhone(String phone){
-        return userDao.getUserByPhone(phone);
+        return userDaoMapper.getUserByPhone(phone);
     }
 
-    public String login(User user){
+    public String login(User user) throws Exception {
         //先判断传入的手机号是不是为空的
         String phone = user.getPhone();
         if (StringUtils.isNullOrEmpty(phone)){
@@ -94,9 +100,42 @@ public class UserService {
         if(!md5Password.equals(dbUser.getPassword())){
             throw new ConditionException("密码错误！");
         }
-        // 解密成功之后返回一个token给前端 进行校验
-       // return TokenUtil.generateToken(dbUser.getId());
+        // 解密成功之后返回一个token给前端 进行校验 这个时候没有任何异常的出现
+        return TokenUtil.generateToken(dbUser.getId());
+    }
 
-        return null;
+    /**
+     * 根据用户id查询用户信息
+     * @param currentUserId
+     * @return
+     */
+    public User getUserInfo(Long currentUserId) {
+        User user = userDaoMapper.getUserById(currentUserId);
+        UserInfo userInfo = userDaoMapper.getUserInfoById(currentUserId);
+        user.setUserInfo(userInfo);
+        return user;
+    }
+
+    public Integer updateUsers(User user) throws Exception {
+        // 获取需要修改的用户的id
+        Long id = user.getId();
+        //判断数据当中是否有这个数据
+        User dbUser = userDaoMapper.getUserById(id);
+        if(dbUser == null){
+            throw new ConditionException("用户不存在！");
+        }
+        //如果要修改密码需要先进行解密
+        if(!StringUtils.isNullOrEmpty(user.getPassword())){
+            String rawPassword = RSAUtil.decrypt(user.getPassword());
+            String md5Password = MD5Util.sign(rawPassword, dbUser.getSalt(), "UTF-8");
+            user.setPassword(md5Password);
+        }
+        user.setUpdateTime(new Date());
+        return userDaoMapper.updateUsers(user);
+    }
+
+    public Integer updateUserInfos(UserInfo userInfo) {
+        userInfo.setUpdateTime(new Date());
+        return userDaoMapper.updateUserInfos(userInfo);
     }
 }

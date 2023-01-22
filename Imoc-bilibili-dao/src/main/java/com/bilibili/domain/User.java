@@ -32,5 +32,7 @@ public class User {
 
     private Date updateTime;
 
+    //用户信息字段
+    private UserInfo userInfo;
 
 }
