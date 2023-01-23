@@ -1,9 +1,13 @@
 package com.bilibili.dao;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Chen Peiyu
@@ -13,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  */
 
 @Mapper
-public interface UserDaoMapper {
+public interface UserMapper {
     User getUserByPhone(String phone);
 
     Integer  addUser(User user);
@@ -28,4 +32,10 @@ public interface UserDaoMapper {
     Integer updateUsers(User user);
 
     Integer updateUserInfos(UserInfo userInfo);
+
+    List<UserInfo> getUserInfoByUserIds(Set<Long> followingIdSet);
+
+    Integer pageCountUserInfos(Map params);
+
+    List<UserInfo> pageListUserInfos(Map params);
 }

@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bilibili.dao.UserDaoMapper">
+<mapper namespace="com.bilibili.dao.UserMapper">
+
     <update id="updateUsers" parameterType="com.bilibili.domain.User">
         update
         t_user
@@ -28,7 +29,7 @@
         <if test="nick != null and nick != '' ">
             nick = #{nick},
         </if>
-        <if test="avatar != null">
+        <if test="avatar != null and avatar != ''">
             avatar = #{avatar},
         </if>
         <if test="sign != null">
@@ -69,6 +70,40 @@
     </select>
 
 
+    <select id="getUserInfoByUserIds" resultType="com.bilibili.domain.UserInfo">
+        select
+        *
+        from
+        t_user_info
+        where
+        1=1
+        <if test="userIdList != null and userIdList.size > 0">
+            and userId in
+            <foreach collection="userIdList" item = "userId" index="index" open="(" close=")" separator=",">
+                #{userId}
+            </foreach>
+        </if>
+    </select>
+    <!--分页查询查询总的记录数-->
+    <select id="pageCountUserInfos" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from t_user_info
+        where 1 = 1
+       <if test="nick!=null and nick != ''">
+            and nick like '%${nick}%'
+       </if>
+    </select>
+    <!--分页查询的方法-->
+    <select id="pageListUserInfos" parameterType="java.util.Map" resultType="com.bilibili.domain.UserInfo">
+        select *
+        from t_user_info
+        where 1 = 1
+        <if test="nick!=null and nick != ''">
+            and nick like '%${nick}%'
+        </if>
+    </select>
+
+
     <!--插入数据到user表-->
     <!--phone,email,password, salt, createTime-->
     
@@ -86,28 +121,20 @@
     </insert>
 
     <insert id="addUserInfo" parameterType="com.bilibili.domain.UserInfo">
-        insert into
-            t_user_info(
-            userId,
-            nick,
-            avatar,
-            sign,
-            gender,
-            birth,
-            createTime
-        )values (
-                    #{userId},
-                    #{nick},
-                    #{avatar},
-                    #{sign},
-                    #{gender},
-                    #{birth},
-                    #{createTime}
-                )
+        insert into t_user_info(userId,
+                                nick,
+                                avatar,
+                                sign,
+                                gender,
+                                birth,
+                                createTime)
+        values (#{userId},
+                #{nick},
+                #{avatar},
+                #{sign},
+                #{gender},
+                #{birth},
+                #{createTime})
     </insert>
-
-
-
-
 
 </mapper>

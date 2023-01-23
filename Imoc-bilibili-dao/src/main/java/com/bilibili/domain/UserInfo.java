@@ -31,6 +31,8 @@ public class UserInfo {
 
     private String birth;
 
+    private Boolean followed;
+
     private Date createTime;
 
     private Date updateTime;

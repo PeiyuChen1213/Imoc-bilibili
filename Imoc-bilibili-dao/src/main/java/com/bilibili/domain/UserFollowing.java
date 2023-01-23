@@ -1,6 +1,8 @@
 package com.bilibili.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +12,8 @@ import java.util.Date;
  * @TableName t_user_following
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserFollowing implements Serializable {
     /**
      * 主键id
@@ -24,17 +28,19 @@ public class UserFollowing implements Serializable {
     /**
      * 关注用户id
      */
-    private Integer followingId;
+    private Long followingId;
 
     /**
      * 关注分组id
      */
-    private Integer groupId;
+    private Long groupId;
 
     /**
      * 创建时间
      */
     private Date createTime;
+
+    private UserInfo userInfo;
 
     private static final long serialVersionUID = 1L;
 }

@@ -5,11 +5,19 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #????
     application:
       name: bilibili
-#???
+  redis:
+    host: localhost
+    port: 6379
+#端口
 server:
   port: 8081
 
+
+#rocketmq
+rocketmq:
+  name:
+    server:
+      address: 127.0.0.1:9876
 

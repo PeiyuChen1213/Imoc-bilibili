@@ -19,12 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class UserSupport {
 
-
     /**
      * 从请求参数当中获取token然后再解析获取用户id
      * @return 用户id
      */
-    public static Long getCurrentUserId()  {
+    public  Long getCurrentUserId()  {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         String token = request.getHeader("token");
