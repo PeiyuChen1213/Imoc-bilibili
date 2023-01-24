@@ -1,5 +1,6 @@
 package com.bilibili.dao;
 
+import com.bilibili.domain.RefreshTokenDetail;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
@@ -42,5 +43,8 @@ public interface UserMapper {
 
     Integer deleteRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId);
 
-    Integer addRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId, @Param("createTime") Date date);
+    Integer addRefreshToken (@Param("refreshToken") String refreshToken, @Param("userId") Long userId, @Param("createTime") Date date);
+
+    RefreshTokenDetail getRefreshToken(String refreshToken);
+
 }

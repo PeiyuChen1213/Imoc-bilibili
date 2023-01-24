@@ -7,6 +7,7 @@ import com.bilibili.domain.PageResult;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import com.bilibili.service.UserFollowingService;
+import com.bilibili.service.UserService;
 import com.bilibili.service.util.RSAUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -137,8 +138,9 @@ public class UserController {
     }
 
     /**
-     * 当传入的accessToken过期了 去数据库查找refreshToken 如果refreshToken也过期了才真正过期
+     * 当传入的accessToken过期了 去数据库查找refreshToken 如果refreshToken也过期了才真正过期或者退出登录被删除了才真的过期了
      * 否则继续使用refreshToken做验证
+     *
      * @param request
      * @return
      * @throws Exception
@@ -150,6 +152,4 @@ public class UserController {
         String accessToken = userService.refreshAccessToken(refreshToken);
         return new JsonResponse<>(accessToken);
     }
-
-
 }

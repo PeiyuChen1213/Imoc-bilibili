@@ -1,7 +1,9 @@
 package com.bilibili.controller.support;
 
 import com.bilibili.domain.exception.ConditionException;
+import com.bilibili.service.UserService;
 import com.bilibili.service.util.TokenUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
