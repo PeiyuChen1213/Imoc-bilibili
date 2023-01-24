@@ -18,24 +18,24 @@ import java.util.Date;
  */
 public class TokenUtil {
 
-    public static String generateToken(Long id) throws Exception {
+    private static String generateToken(Long id, int TimeUnit, int expireTimeInterval) throws Exception {
         //写一个相关的算法
         Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
         //和token过期时间相关
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         //设置token 30s过期
-        calendar.add(Calendar.SECOND, 30);
+        calendar.add(TimeUnit, expireTimeInterval);
         return JWT.create().withKeyId(String.valueOf(id)).withIssuer("chenpeiyu")
                 .withExpiresAt(calendar.getTime())
                 .sign(algorithm);
-
     }
 
     /**
      * token 解密
+     *
      * @param token
-     * @return
+     * @return 返回用户id userId
      * @throws Exception
      */
     public static Long verifyToken(String token) {
@@ -49,10 +49,17 @@ public class TokenUtil {
             String userId = verify.getKeyId();
             return Long.valueOf(userId);
         } catch (TokenExpiredException e) {
-            throw new ConditionException("555","token 过期！");
-        } catch (Exception e){
+            throw new ConditionException("555", "token 过期！");
+        } catch (Exception e) {
             throw new ConditionException("非法用户的token!");
         }
+    }
 
+    public static String generateAccessToken(Long id) throws Exception {
+        return generateToken(id, Calendar.HOUR, 1);
+    }
+
+    public static String generateRefreshToken(Long id) throws Exception {
+        return generateToken(id, Calendar.DAY_OF_MONTH, 7);
     }
 }

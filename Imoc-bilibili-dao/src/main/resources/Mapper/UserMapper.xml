@@ -46,6 +46,13 @@
         userId = #{userId}
     </update>
 
+    <!--删除refresh token-->
+    <delete id="deleteRefreshToken">
+        delete
+        from t_refresh_token
+        where refreshToken = #{refreshToken}
+    </delete>
+
 
     <select id="getUserByPhone" parameterType="java.lang.String" resultType="com.bilibili.domain.User">
         select *
@@ -135,6 +142,11 @@
                 #{gender},
                 #{birth},
                 #{createTime})
+    </insert>
+    <!--添加refresh token-->
+    <insert id="addRefreshToken">
+        insert into t_refresh_token(userId, refreshToken, createTime)
+        values (#{userId}, #{refreshToken}, #{createTime})
     </insert>
 
 </mapper>

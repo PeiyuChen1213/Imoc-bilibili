@@ -7,7 +7,6 @@ import com.bilibili.domain.PageResult;
 import com.bilibili.domain.User;
 import com.bilibili.domain.UserInfo;
 import com.bilibili.service.UserFollowingService;
-import com.bilibili.service.UserService;
 import com.bilibili.service.util.RSAUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Chen Peiyu
@@ -88,6 +89,7 @@ public class UserController {
         userService.updateUsers(user);
         return JsonResponse.success();
     }
+
     @ApiOperation("更新用户信息")
     @PutMapping("/user-infos")
     public JsonResponse<String> updateUserInfos(@RequestBody UserInfo userInfo) {
@@ -99,7 +101,7 @@ public class UserController {
 
     @ApiOperation("用户信息分页查询接口")
     @GetMapping("/user-infos")
-    public JsonResponse<PageResult<UserInfo>> pageListUserInfos(@RequestParam Integer no, @RequestParam Integer size, String nick){
+    public JsonResponse<PageResult<UserInfo>> pageListUserInfos(@RequestParam Integer no, @RequestParam Integer size, String nick) {
         Long userId = userSupport.getCurrentUserId();
         // 类似与map类 但是比map类有更多好用的方法
         JSONObject params = new JSONObject();
@@ -109,12 +111,44 @@ public class UserController {
         params.put("userId", userId);
         //将参数传入到service当中 查询
         PageResult<UserInfo> result = userService.pageListUserInfos(params);
-        if(result.getTotal() > 0){
+        if (result.getTotal() > 0) {
             //区别已经
             List<UserInfo> checkedUserInfoList = userFollowingService.checkFollowingStatus(result.getList(), userId);
             result.setList(checkedUserInfoList);
         }
         return new JsonResponse<>(result);
+    }
+
+
+    @ApiOperation("双令牌登录方法")
+    @PostMapping("/user-dts")
+    public JsonResponse<Map<String, Object>> loginForDts(@RequestBody User user) throws Exception {
+        Map<String, Object> map = userService.loginForDts(user);
+        return new JsonResponse<>(map);
+    }
+
+    @ApiOperation("登出方法")
+    @DeleteMapping("/refresh-tokens")
+    public JsonResponse<String> logout(HttpServletRequest request) {
+        String refreshToken = request.getHeader("refreshToken");
+        Long userId = userSupport.getCurrentUserId();
+        userService.logout(refreshToken, userId);
+        return JsonResponse.success();
+    }
+
+    /**
+     * 当传入的accessToken过期了 去数据库查找refreshToken 如果refreshToken也过期了才真正过期
+     * 否则继续使用refreshToken做验证
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("刷新接入token")
+    @PostMapping("/access-tokens")
+    public JsonResponse<String> refreshAccessToken(HttpServletRequest request) throws Exception {
+        String refreshToken = request.getHeader("refreshToken");
+        String accessToken = userService.refreshAccessToken(refreshToken);
+        return new JsonResponse<>(accessToken);
     }
 
 
