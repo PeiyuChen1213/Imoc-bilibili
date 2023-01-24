@@ -1,26 +1,19 @@
 package com.bilibili.domain.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAuthorities {
 
     List<AuthRoleElementOperation> roleElementOperationList;
 
     List<AuthRoleMenu> roleMenuList;
 
-    public List<AuthRoleElementOperation> getRoleElementOperationList() {
-        return roleElementOperationList;
-    }
 
-    public void setRoleElementOperationList(List<AuthRoleElementOperation> roleElementOperationList) {
-        this.roleElementOperationList = roleElementOperationList;
-    }
-
-    public List<AuthRoleMenu> getRoleMenuList() {
-        return roleMenuList;
-    }
-
-    public void setRoleMenuList(List<AuthRoleMenu> roleMenuList) {
-        this.roleMenuList = roleMenuList;
-    }
 }
