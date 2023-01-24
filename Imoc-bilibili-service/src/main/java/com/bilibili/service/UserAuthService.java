@@ -49,4 +49,8 @@ public class UserAuthService {
 
         return userAuthorities;
     }
+
+    public void addUserDefaultRole(Long id) {
+        userRoleService.addUserDefaultRole(id);
+    }
 }

@@ -32,6 +32,11 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+
+    // 引入这样的一个依赖
+    @Autowired
+    private UserAuthService userAuthService;
+
     public void addUser(User user) {
         //判断手机号是否为空，判断手机号是否已经注册过
         String phone = user.getPhone();
@@ -71,6 +76,9 @@ public class UserService {
 
         //将用户信息表数据插入到数据库当中
         userMapper.addUserInfo(userInfo);
+
+        //添加一个默认的角色
+        userAuthService.addUserDefaultRole(user.getId());
 
     }
 

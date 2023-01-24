@@ -11,6 +11,7 @@
         <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+
     <!--获取用户角色-->
 
     <select id="getUserRoleByUserId" resultType="com.bilibili.domain.auth.UserRole">
@@ -21,6 +22,11 @@
         where tur.userId = #{userId};
     </select>
 
+    <!--添加用户角色-->
+    <insert id="addUserRole" parameterType="com.bilibili.domain.auth.UserRole">
+        insert into t_user_role(userId, roleId, createTime)
+        values (#{userId},#{roleId},#{createTime})
+    </insert>
 
 
 </mapper>

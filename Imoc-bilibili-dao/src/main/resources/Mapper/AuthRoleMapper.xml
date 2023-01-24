@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bilibili.dao.AuthRoleMapper">
 
-	<resultMap id="BaseResultMap" type="com.bilibili.domain.auth.AuthRoleMenu">
-		<id property="id" column="id" jdbcType="BIGINT"/>
-		<result property="roleId" column="roleId" jdbcType="BIGINT"/>
-		<result property="menuId" column="menuId" jdbcType="BIGINT"/>
-		<result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
-	</resultMap>
-
-	<sql id="Base_Column_List">
-		id,roleId,menuId,
-        createTime
-	</sql>
+    <select id="getRoleByCode" resultType="com.bilibili.domain.auth.AuthRole">
+        select *
+        from t_auth_role
+        where code = #{code};
+    </select>
 </mapper>

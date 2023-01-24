@@ -1,8 +1,11 @@
 package com.bilibili.controller;
 
 import com.bilibili.controller.support.UserSupport;
+import com.bilibili.domain.Constant.AuthRoleConstant;
 import com.bilibili.domain.JsonResponse;
 import com.bilibili.domain.UserMoment;
+import com.bilibili.domain.annotation.ApiLimitedRole;
+import com.bilibili.domain.annotation.DataLimited;
 import com.bilibili.service.UserMomentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,8 @@ public class UserMomentController {
     @Autowired
     private UserSupport userSupport;
 
+    @ApiLimitedRole(limitedRoleCodeList = {AuthRoleConstant.ROLE_LV0}) //意思是LV0的用户是没有发动态的权限的
+    @DataLimited  //这个注解用来判断传入的参数字段是否正确 也就是userMoment的数据
     @PostMapping("/user-moments")
     public JsonResponse<String> addUserMoments(@RequestBody UserMoment userMoment) throws Exception {
         Long userId = userSupport.getCurrentUserId();
