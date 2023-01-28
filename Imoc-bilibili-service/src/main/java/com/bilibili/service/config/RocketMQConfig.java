@@ -35,7 +35,7 @@ public class RocketMQConfig {
     private String nameServerAddr;
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
 
     @Autowired
@@ -47,7 +47,7 @@ public class RocketMQConfig {
      */
     //加入到spring管理
     @Bean("momentsProducer")
-    public DefaultMQProducer momentsProducer() throws Exception{
+    public DefaultMQProducer momentsProducer() throws Exception {
         DefaultMQProducer producer = new DefaultMQProducer(UserMomentsConstant.GROUP_MOMENTS);
         producer.setNamesrvAddr(nameServerAddr);
         producer.start();
@@ -56,7 +56,7 @@ public class RocketMQConfig {
 
     //消费者
     @Bean("momentsConsumer")
-    public DefaultMQPushConsumer momentsConsumer() throws Exception{
+    public DefaultMQPushConsumer momentsConsumer() throws Exception {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(UserMomentsConstant.GROUP_MOMENTS);
         consumer.setNamesrvAddr(nameServerAddr);
         //订阅一个主题
@@ -65,10 +65,10 @@ public class RocketMQConfig {
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             // 监听方法 拿到生产者的消息之后进行处理
-            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context){
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
                 // 取出消息
                 MessageExt msg = msgs.get(0);
-                if(msg == null){
+                if (msg == null) {
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                 }
                 //消息不为空
@@ -79,18 +79,18 @@ public class RocketMQConfig {
                 //获取当前登陆的userId
                 Long userId = userMoment.getUserId();
                 // 获取当前的用户粉丝
-                List<UserFollowing>fanList = userFollowingService.getUserFans(userId);
+                List<UserFollowing> fanList = userFollowingService.getUserFans(userId);
                 // 遍历粉丝列表，将消息内容发送到所有的粉丝
-                for(UserFollowing fan : fanList){
+                for (UserFollowing fan : fanList) {
                     //将消息内容存放在redis的数据库当中
                     String key = "subscribed-" + fan.getUserId();
                     //如果其他用户也发送动态，需要先获取其他用户的动态然后再加入 该用户传入的动态 再set到redis数据库里面
                     String subscribedListStr = redisTemplate.opsForValue().get(key);
                     //创建一个储存消息内容的列表
                     List<UserMoment> subscribedList;
-                    if(StringUtil.isNullOrEmpty(subscribedListStr)){
+                    if (StringUtil.isNullOrEmpty(subscribedListStr)) {
                         subscribedList = new ArrayList<>();
-                    }else{
+                    } else {
                         subscribedList = JSONArray.parseArray(subscribedListStr, UserMoment.class);
                     }
                     subscribedList.add(userMoment);
@@ -102,14 +102,6 @@ public class RocketMQConfig {
         consumer.start();
         return consumer;
     }
-
-
-
-
-
-
-
-
 
 
 }

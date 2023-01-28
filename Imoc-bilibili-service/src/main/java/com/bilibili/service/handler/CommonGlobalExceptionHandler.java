@@ -17,13 +17,13 @@ public class CommonGlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public JsonResponse<String> commonExceptionHandler(HttpServletRequest request, Exception e){
+    public JsonResponse<String> commonExceptionHandler(HttpServletRequest request, Exception e) {
         String errorMsg = e.getMessage();
-        if(e instanceof ConditionException){
-            String errorCode = ((ConditionException)e).getCode();
+        if (e instanceof ConditionException) {
+            String errorCode = ((ConditionException) e).getCode();
             return new JsonResponse<>(errorCode, errorMsg);
-        }else{
-            return new JsonResponse<>("500",errorMsg);
+        } else {
+            return new JsonResponse<>("500", errorMsg);
         }
     }
 }

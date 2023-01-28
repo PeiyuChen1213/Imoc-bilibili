@@ -41,7 +41,7 @@ public class UserMomentController {
     }
 
     @GetMapping("/user-subscribed-moments")
-    public JsonResponse<List<UserMoment>> getUserSubscribedMoments(){
+    public JsonResponse<List<UserMoment>> getUserSubscribedMoments() {
         Long userId = userSupport.getCurrentUserId();
         List<UserMoment> list = userMomentService.getUserSubscribedMoments(userId);
         return new JsonResponse<>(list);

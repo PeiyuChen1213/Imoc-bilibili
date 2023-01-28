@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ServiceTest {
     @Value("${rocketmq.name.server.address}")
     private String nameServerAddr;
+
     @Test
     public void RSAUtiltest() throws Exception {
         String password = "12345";
@@ -25,7 +26,7 @@ public class ServiceTest {
 
 
     @Test
-    public void ValueTest(){
+    public void ValueTest() {
         System.out.println(nameServerAddr);
     }
 }

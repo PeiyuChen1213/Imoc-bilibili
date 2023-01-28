@@ -211,14 +211,14 @@ public class UserService {
     }
 
     public void logout(String refreshToken, Long userId) {
-        userMapper.deleteRefreshToken(refreshToken,userId);
+        userMapper.deleteRefreshToken(refreshToken, userId);
     }
 
     public String refreshAccessToken(String refreshToken) throws Exception {
         //判断当前的refreshToken是否过期
         RefreshTokenDetail refreshTokenDetail = userMapper.getRefreshToken(refreshToken);
-        if (refreshTokenDetail == null){
-            throw new ConditionException("555","token 过期");
+        if (refreshTokenDetail == null) {
+            throw new ConditionException("555", "token 过期");
         }
         Long userId = refreshTokenDetail.getUserId();
         return TokenUtil.generateAccessToken(userId);

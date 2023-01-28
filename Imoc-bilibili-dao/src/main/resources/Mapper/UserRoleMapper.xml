@@ -25,7 +25,7 @@
     <!--添加用户角色-->
     <insert id="addUserRole" parameterType="com.bilibili.domain.auth.UserRole">
         insert into t_user_role(userId, roleId, createTime)
-        values (#{userId},#{roleId},#{createTime})
+        values (#{userId}, #{roleId}, #{createTime})
     </insert>
 
 

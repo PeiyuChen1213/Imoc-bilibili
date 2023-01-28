@@ -25,9 +25,9 @@ public class UserAuthController {
 
 
     @GetMapping("/user-authorities")
-    public JsonResponse<UserAuthorities> getUserAuthorities(){
+    public JsonResponse<UserAuthorities> getUserAuthorities() {
         Long userId = userSupport.getCurrentUserId();
-        UserAuthorities userAuthorities =  userAuthService.getUserAuthorities(userId);
+        UserAuthorities userAuthorities = userAuthService.getUserAuthorities(userId);
         return new JsonResponse<>(userAuthorities);
     }
 }

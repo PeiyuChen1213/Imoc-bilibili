@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bilibili.dao.UserMomentMapper">
 
-   <!-- <resultMap id="BaseResultMap" type="com.bilibili.domain.UserMoment">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="userId" column="userId" jdbcType="BIGINT"/>
-        <result property="type" column="type" jdbcType="VARCHAR"/>
-        <result property="contentId" column="contentId" jdbcType="BIGINT"/>
-        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
-    </resultMap>-->
+    <!-- <resultMap id="BaseResultMap" type="com.bilibili.domain.UserMoment">
+         <id property="id" column="id" jdbcType="BIGINT"/>
+         <result property="userId" column="userId" jdbcType="BIGINT"/>
+         <result property="type" column="type" jdbcType="VARCHAR"/>
+         <result property="contentId" column="contentId" jdbcType="BIGINT"/>
+         <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+         <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+     </resultMap>-->
 
 
     <!--新增动态-->
@@ -22,7 +22,6 @@
                 #{contentId},
                 #{createTime})
     </insert>
-
 
 
 </mapper>

@@ -43,7 +43,7 @@ public interface UserMapper {
 
     Integer deleteRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId);
 
-    Integer addRefreshToken (@Param("refreshToken") String refreshToken, @Param("userId") Long userId, @Param("createTime") Date date);
+    Integer addRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId, @Param("createTime") Date date);
 
     RefreshTokenDetail getRefreshToken(String refreshToken);
 

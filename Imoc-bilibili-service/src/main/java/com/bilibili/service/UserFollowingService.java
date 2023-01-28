@@ -1,8 +1,11 @@
 package com.bilibili.service;
 
 import com.bilibili.dao.UserFollowingMapper;
-import com.bilibili.domain.*;
 import com.bilibili.domain.Constant.UserConstant;
+import com.bilibili.domain.FollowingGroup;
+import com.bilibili.domain.User;
+import com.bilibili.domain.UserFollowing;
+import com.bilibili.domain.UserInfo;
 import com.bilibili.domain.exception.ConditionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +73,7 @@ public class UserFollowingService {
         if (integer > 0) {
             userFollowing.setCreateTime(new Date());
             userFollowingMapper.addUserFollowing(userFollowing);
-        }else {
+        } else {
             throw new ConditionException("删除用户关注原记录失败");
         }
     }

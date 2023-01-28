@@ -1,6 +1,5 @@
 package com.bilibili.service;
 
-import com.bilibili.dao.AuthRoleElementOperationMapper;
 import com.bilibili.dao.AuthRoleMapper;
 import com.bilibili.domain.auth.AuthRole;
 import com.bilibili.domain.auth.AuthRoleElementOperation;
@@ -20,7 +19,6 @@ import java.util.Set;
 
 @Service
 public class AuthRoleService {
-
 
 
     @Autowired

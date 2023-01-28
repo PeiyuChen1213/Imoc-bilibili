@@ -20,6 +20,7 @@ public class AuthRoleMenuService {
 
     @Autowired
     private AuthRoleMenuMapper authRoleMenuMapper;
+
     public List<AuthRoleMenu> getRoleAuthRoleMenuByRoleIds(Set<Long> roleIds) {
         return authRoleMenuMapper.getAuthRoleMenusByRoleIds(roleIds);
     }

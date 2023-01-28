@@ -10,5 +10,5 @@ public interface UserRoleMapper {
 
     List<UserRole> getUserRoleByUserId(Long userId);
 
-    Integer addUserRole  (UserRole userRole);
+    Integer addUserRole(UserRole userRole);
 }
