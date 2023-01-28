@@ -22,4 +22,7 @@ rocketmq:
       address: 127.0.0.1:9876
 
 fdfs:
-  tracker-list: 192.168.85.128
+  tracker-list: 192.168.85.128:22122
+  connect-timeout: 600
+  http:
+    storage-addr: http://192.168.85.128:8888/group1/
